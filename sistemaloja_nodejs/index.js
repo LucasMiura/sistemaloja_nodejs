@@ -4,10 +4,31 @@ import express from "express"; //ES6 Modules
 // Criando uma instância do Express
 const app = express();
 
+// Importando o Sequelize (com os dados da conexão)
+import connection from "./config/sequelize-config.js";
+
 // Importando os Controllers )onde estão rotas)
 import ClientesController from "./controllers/ClientesController.js";
 import PedidosController from "./controllers/PedidosController.js";
 import ProdutosController from "./controllers/ProdutosController.js";
+
+// Permite capturar dados vindo de formulários
+app.use(express.urlencoded({extended: false}));
+
+// Realizando a conexão com o banco de dados
+connection.authenticate().then(() => {
+    console.log("Conexão com o banco de dados feita com sucesso!");
+}).catch((error) =>{
+    console.log(error)
+});
+
+// Criando o banco de dados se ele não existir
+connection.query(`CREATE DATABASE IF NOT EXISTS loja_js;`).then(()=>{
+    console.log("O banco de dados está criado.");
+})
+.catch((error)=>{
+    console.log(error)
+})
 
 // Definindo o EJS como renderizador de páginas
 app.set("view engine", "ejs");
