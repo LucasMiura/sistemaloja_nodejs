@@ -1,56 +1,80 @@
-import express from "express"; // ES6 Modules
+import express, { Router } from "express"; // ES6 Modules
 const router = express.Router();
+// Importando o model de Pedido
+import Pedido from "../models/Pedido.js";
+import { where } from "sequelize";
 
 // ROTA DE PEDIDOS
 router.get("/pedidos", (req, res) => {
-  const pedidos = [
-    {
-      numpedido: "A12345",
-      valor: 299.9,
-    },
-
-    {
-      numpedido: "B23456",
-      valor: 159.9,
-    },
-
-    {
-      numpedido: "C34567",
-      valor: 89.9,
-    },
-
-    {
-      numpedido: "D45678",
-      valor: 199.9,
-    },
-
-    {
-      numpedido: "E56789",
-      valor: 79.9,
-    },
-
-    {
-      numpedido: "F67890",
-      valor: 249.9,
-    },
-
-    {
-      numpedido: "G78901",
-      valor: 119.9,
-    },
-
-    {
-      numpedido: "H89012",
-      valor: 99.9,
-    },
-
-    {
-      numpedido: "I90123",
-      valor: 49.9,
-    },
-  ];
-  res.render("pedidos", {
-    pedidos: pedidos,
+  Pedido.findAll().then((pedidos) => {
+    res.render("pedidos", {
+      pedidos: pedidos,
+    });
   });
 });
+
+// ROTA DE CADASTRO DE PEDIDOS
+router.post("/pedidos/new", (req, res) => {
+  const numero = req.body.numero;
+  const valor = req.body.valor;
+  Pedido.create({
+    numero: numero,
+    valor: valor,
+  })
+    .then(() => {
+      res.redirect("/pedidos");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+// ROTA DE EXCLUSÃO DE PEDIDOS
+router.get("/pedidos/delete/:id", (req, res) => {
+  const id = req.params.id;
+  Pedido.destroy({
+    where: {
+      id: id,
+    },
+  })
+    .then(() => {
+      res.redirect("/pedidos");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+// ROTA DE EDIÇÃO DE PEDIDOS
+router.get("/pedidos/edit/:id", (req, res) => {
+  const id = req.params.id;
+  Pedido.findByPk(id)
+    .then((pedido) => {
+      res.render("pedidoEdit", {
+        pedido: pedido,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+// ROTA DE ALTERAÇÃO DE Pedido
+router.post("/pedidos/update", (req, res) => {
+  const id = req.body.id;
+  const numero = req.body.numero;
+  const valor = req.body.valor;
+  Pedido.update({
+    numero: numero,
+    valor: valor,
+  },
+  {where: {id: id}}
+).then(() => {
+  res.redirect("/pedidos")
+}).catch((error) => {
+  console.log(error)
+})
+});
+
+
 export default router;

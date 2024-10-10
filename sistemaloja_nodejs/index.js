@@ -23,7 +23,7 @@ connection.authenticate().then(() => {
 });
 
 // Criando o banco de dados se ele não existir
-connection.query(`CREATE DATABASE IF NOT EXISTS loja_js;`).then(()=>{
+connection.query(`CREATE DATABASE IF NOT EXISTS miuraclothing;`).then(()=>{
     console.log("O banco de dados está criado.");
 })
 .catch((error)=>{

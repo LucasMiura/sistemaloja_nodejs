@@ -1,65 +1,83 @@
-import express from "express"; // ES6 Modules
+import express, { Router } from "express";
 const router = express.Router();
+// Importando o model de Produto
+import Produto from "../models/Produto.js";
+import { where } from "sequelize";
 
-// ROTA DE PRODUTOS
-router.get("/produtos", (req, res) => {
-  const produtos = [
-    {
-      produto: "Moletom Oversized",
-      preco: 199.9,
-      categoria: "Casacos",
-    },
-
-    {
-      produto: "Camiseta Gráfica",
-      preco: 89.9,
-      categoria: "Camisetas",
-    },
-
-    {
-      produto: "Calça Cargo",
-      preco: 159.9,
-      categoria: "Calças",
-    },
-
-    {
-      produto: "Jaqueta Bomber",
-      preco: 249.9,
-      categoria: "Casacos",
-    },
-
-    {
-      produto: "Tênis Chunky",
-      preco: 299.9,
-      categoria: "Calçados",
-    },
-
-    {
-      produto: "Bermuda de Moletom",
-      preco: 79.9,
-      categoria: "Shorts",
-    },
-
-    {
-      produto: "Chapéu Bucket",
-      preco: 49.9,
-      categoria: "Acessórios",
-    },
-
-    {
-      produto: "Calça Jogger",
-      preco: 119.9,
-      categoria: "Calças",
-    },
-
-    {
-      produto: "Camisa de Flanela",
-      preco: 99.9,
-      categoria: "Camisas",
-    },
-  ];
-  res.render("produtos", {
-    produtos: produtos,
+// ROTA PRODUTOS
+router.get("/produtos", function (req, res) {
+  Produto.findAll().then((produtos) => {
+    res.render("produtos", {
+      produtos: produtos,
+    });
   });
 });
+
+// ROTA DE CADASTRO DE PRODUTOS
+router.post("/produtos/new", (req, res) => {
+  // RECEBENDO OS DADOS DO FORMULÁRIO E GRAVANDO NAS VARIÁVEIS
+  const produto = req.body.produto;
+  const preco = req.body.preco;
+  const categoria = req.body.categoria;
+  Produto.create({
+    produto: produto,
+    preco: preco,
+    categoria: categoria,
+  }).then(() => {
+    res.redirect("/produtos");
+  });
+});
+
+// ROTA DE EXCLUSÃO DE PRODUTO
+// ESSA ROTA POSSUI UM PARÂMETRO ID
+router.get("/produtos/delete/:id", (req, res) => {
+  // COLETAR O ID QUE VEIO NA URL
+  const id = req.params.id;
+  // MÉTODO PARA EXCLUIR
+  Produto.destroy({
+    where: {
+      id: id,
+    },
+  })
+    .then(() => {
+      res.redirect("/produtos");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+// ROTA DE EDIÇÃO DE PRODUTO
+router.get("/produtos/edit/:id", (req, res) => {
+  const id = req.params.id;
+  Produto.findByPk(id)
+    .then((produto) => {
+      res.render("produtoEdit", {
+        produto: produto,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+// ROTA DE ALTERAÇÃO DE PRODUTO
+router.post("/produtos/update", (req, res) => {
+  const id = req.body.id;
+  const produto = req.body.produto;
+  const preco = req.body.preco;
+  const categoria = req.body.categoria;
+  Produto.update({
+    produto: produto,
+    preco: preco,
+    categoria: categoria,
+  },
+  {where: {id: id}}
+).then(() => {
+  res.redirect("/produtos")
+}).catch((error) => {
+  console.log(error)
+})
+});
+
 export default router;
