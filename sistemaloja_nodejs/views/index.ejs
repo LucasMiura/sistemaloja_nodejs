@@ -1,4 +1,11 @@
 <%- include ('partials/navbar.ejs') %>
+
+<% if (messages.success) {%>
+  <div class="alert alert-success">
+      <%= messages.success %>
+  </div>
+<% } %>
+
 <%- include ('partials/header.ejs') %>
 
 <br>
@@ -10,45 +17,45 @@
 <div class="card-group">
 
     
-    <div class="card">
-    <a href="/clientes">    
+    <div class="card text-white bg-dark">
+    <a style="color: #ffffff;" href="/clientes">    
       <img class="card-img-top" src="imgs/clientes.png" alt="Card image cap">
       <div class="card-body">
         <h4 class="card-title">Clientes</h4>
         <p class="card-text">Administração de carteira de clientes. Verifique os dados dísponiveis.</p>
       </div>
       <div class="card-footer">
-        <small class="text-muted">Last updated 3 mins ago</small>
+        <small>Last updated 3 mins ago</small>
       </div>
     </a>  
     </div>
     
 
     
-    <div class="card">
-    <a href="/produtos">    
+    <div class="card text-white bg-dark">
+    <a style="color: #ffffff;" href="/produtos">    
       <img class="card-img-top" src="imgs/produtos.png" alt="Card image cap">
       <div class="card-body">
         <h4 class="card-title">Produtos</h4>
         <p class="card-text">Administração de produtos conforme descrição, preço e categoria.</p>
       </div>
       <div class="card-footer">
-        <small class="text-muted">Last updated 3 mins ago</small>
+        <small>Last updated 3 mins ago</small>
       </div>
     </a>  
     </div>
     
 
     
-    <div class="card">
-    <a href="/pedidos">
+    <div class="card text-white bg-dark">
+    <a style="color: #ffffff;" href="/pedidos">
       <img class="card-img-top" src="imgs/pedidos.png" alt="Card image cap">
       <div class="card-body">
         <h4 class="card-title">Pedidos</h4>
         <p class="card-text">Administração de pedidos efetuados e seus respectivos valores.</p>
       </div>
       <div class="card-footer">
-        <small class="text-muted">Last updated 3 mins ago</small>
+        <small>Last updated 3 mins ago</small>
       </div>
     </a>
     </div>

@@ -2,10 +2,10 @@ import express, { Router } from "express"; // ES6 Modules
 const router = express.Router();
 // Importando o model de Cliente
 import Cliente from "../models/Cliente.js";
-import { where } from "sequelize";
+import Auth from "../middleware/Auth.js";
 
 // ROTA DE CLIENTES
-router.get("/clientes", (req, res) => {
+router.get("/clientes", Auth, (req, res) => {
   Cliente.findAll().then((clientes) => {
     res.render("clientes", {
       clientes: clientes,
@@ -14,7 +14,7 @@ router.get("/clientes", (req, res) => {
 });
 
 // ROTA DE CADASTRO DE CLIENTES
-router.post("/clientes/new", (req, res) => {
+router.post("/clientes/new", Auth, (req, res) => {
   const nome = req.body.nome;
   const cpf = req.body.cpf;
   const endereco = req.body.endereco;
@@ -32,7 +32,7 @@ router.post("/clientes/new", (req, res) => {
 });
 
 // ROTA DE EXCLUSÃO DE CLIENTE
-router.get("/clientes/delete/:id", (req, res) => {
+router.get("/clientes/delete/:id", Auth, (req, res) => {
   const id = req.params.id;
   Cliente.destroy({
     where: {
@@ -48,7 +48,7 @@ router.get("/clientes/delete/:id", (req, res) => {
 });
 
 // ROTA DE EDIÇÃO DE CLIENTE
-router.get("/clientes/edit/:id", (req, res) => {
+router.get("/clientes/edit/:id", Auth, (req, res) => {
   const id = req.params.id;
   Cliente.findByPk(id)
     .then((cliente) => {
@@ -62,7 +62,7 @@ router.get("/clientes/edit/:id", (req, res) => {
 });
 
 // ROTA DE ALTERAÇÃO DE CLIENTE
-router.post("/clientes/update", (req, res) => {
+router.post("/clientes/update", Auth, (req, res) => {
   const id = req.body.id;
   const nome = req.body.nome;
   const cpf = req.body.cpf;

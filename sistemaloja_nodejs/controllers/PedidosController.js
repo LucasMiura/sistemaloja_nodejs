@@ -2,10 +2,10 @@ import express, { Router } from "express"; // ES6 Modules
 const router = express.Router();
 // Importando o model de Pedido
 import Pedido from "../models/Pedido.js";
-import { where } from "sequelize";
+import Auth from "../middleware/Auth.js";
 
 // ROTA DE PEDIDOS
-router.get("/pedidos", (req, res) => {
+router.get("/pedidos", Auth, (req, res) => {
   Pedido.findAll().then((pedidos) => {
     res.render("pedidos", {
       pedidos: pedidos,
@@ -14,7 +14,7 @@ router.get("/pedidos", (req, res) => {
 });
 
 // ROTA DE CADASTRO DE PEDIDOS
-router.post("/pedidos/new", (req, res) => {
+router.post("/pedidos/new", Auth, (req, res) => {
   const numero = req.body.numero;
   const valor = req.body.valor;
   Pedido.create({
@@ -30,7 +30,7 @@ router.post("/pedidos/new", (req, res) => {
 });
 
 // ROTA DE EXCLUSÃO DE PEDIDOS
-router.get("/pedidos/delete/:id", (req, res) => {
+router.get("/pedidos/delete/:id", Auth, (req, res) => {
   const id = req.params.id;
   Pedido.destroy({
     where: {
@@ -46,7 +46,7 @@ router.get("/pedidos/delete/:id", (req, res) => {
 });
 
 // ROTA DE EDIÇÃO DE PEDIDOS
-router.get("/pedidos/edit/:id", (req, res) => {
+router.get("/pedidos/edit/:id", Auth, (req, res) => {
   const id = req.params.id;
   Pedido.findByPk(id)
     .then((pedido) => {
@@ -60,7 +60,7 @@ router.get("/pedidos/edit/:id", (req, res) => {
 });
 
 // ROTA DE ALTERAÇÃO DE Pedido
-router.post("/pedidos/update", (req, res) => {
+router.post("/pedidos/update", Auth, (req, res) => {
   const id = req.body.id;
   const numero = req.body.numero;
   const valor = req.body.valor;

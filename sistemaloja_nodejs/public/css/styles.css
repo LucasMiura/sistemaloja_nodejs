@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&display=swap');
+
+* {
+    font-family: "Poppins", sans-serif !important;
+}
+
 .logonav{
     height: 40px;
 }
@@ -51,11 +57,11 @@ body{
 
 
 .minha-tabela th {
-    background-color: #f2f2f2;
+    background-color: #161616;
 }
 
 .minha-tabela tr:hover {
-    background-color: #cacaca;
+    background-color: #4b4b4b;
     font-weight: bolder;
 }
 
@@ -68,4 +74,18 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.glass {
+    background: transparent;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+h2 {
+    color: #fff;
+}
+
+.cadastro:hover {
+    font-size: larger;    
 }

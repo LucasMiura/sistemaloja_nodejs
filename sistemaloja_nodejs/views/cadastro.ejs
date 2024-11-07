@@ -1,0 +1,30 @@
+<%- include ('partials/navbar.ejs') %>
+
+<% if (messages.danger) {%>
+    <div class="alert alert-danger">
+        <%= messages.danger %>
+    </div>
+<% } %>
+
+<div class="background-image">
+    <div class="container">
+        <div class="card mt-4 text-white bg-dark">
+            <div class="card-header">
+                <h2>Cadastro de usuário</h2>
+            </div>
+            <div class="card-body">
+                <form action="/createUser" method="POST">
+                    <label>Email:</label>
+                    <input type="email" class="form-control" name="email" placeholder="email@exemplo.com" required><br>
+                    <label>Senha:</label>
+                    <input type="password" class="form-control" name="password" placeholder="Insira uma senha com no mínimo 8 caracteteres" required><br>
+                    <input type="submit" class="btn btn-success btn-block" value="Cadastrar">
+                </form>
+                <hr>
+                <h6>Já possui conta? <a style="color: white;" href="/login">Faça o login!</a></h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include ('partials/footer.ejs') %>
